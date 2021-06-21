@@ -1,0 +1,120 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Classifiers{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title">Edit Classifier</h4>
+          </div><!--end card-header-->
+          <div class="card-body">
+            <form method="post" id="classifier_form" >
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-right">Match Attribute</label>
+                            <div class="col-sm-9">
+                                <ul class="parsley-errors-list">
+                                    <li class="parsley-required"></li>
+                                </ul>
+                                <select name="attr" id="attr" class="form-control">
+                                    <option value="{{classifier.match_attr}}">{{classifier.match_attr}}</option>
+                                    <option value="{{other_match_attr}}">{{other_match_attr}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-right">Match Value</label>
+                            <div class="col-sm-9">
+                                <input name="value" id="value" value="{{classifier.match_value}}" class="form-control">
+                                <ul class="parsley-errors-list">
+                                    <li class="parsley-required"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-right">Match Operation</label>
+                            <div class="col-sm-9">
+                                <ul class="parsley-errors-list">
+                                    <li class="parsley-required"></li>
+                                </ul>
+                                <select name="op" id="op" class="form-control" >
+                                    <option value="{{classifier.match_operation}}" >{{classifier.match_operation}}</option>
+                                    {%for match_operation in match_operations %}
+                                    <option value="{{match_operation}}">{{match_operation}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-right">Merchant</label>
+                            <div class="col-sm-9">
+                                <input name="merchant_id" id="merchant_id" value="{{current_merchant.merchant_name}}" data-value="{{current_merchant.merchant_id}}" class="form-control" readonly>
+                                <ul class="parsley-errors-list">
+                                    <li class="parsley-required"></li>
+                                </ul>
+                                <!--
+                                <datalist id="merchants">
+                                    {% for row in data %}
+                                    <option data-value="{{row.id}}" value="{{row.merchant_name}}">{{row.merchant_name}}</option>    
+                                    {% endfor %}
+                                </datalist>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-12 offset-md-4 mb-3 mb-md-0">
+                        <button type="submit" class="btn btn-soft-primary btn-block">Save Details</button>
+                    </div>
+                    <div class="col-md-2 col-12 ml-md-2 mb-3 mb-md-0">
+                        <button type="button" class="btn btn-soft-danger btn-block" onclick="window.location.href='/classifiers'">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div><!--end card-->
+  </div><!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  /*$(document).ready(function() {
+
+    $("#merchant_id").on("input",function(e){
+        text=$("#merchant_id").val();
+        $.ajax({
+            method:"post",
+            url:"/classifiers/livesearch",
+            data:{text:text},
+            success:function(res){
+
+            }
+        })
+    });
+
+  });
+  */
+</script>
+
+{% endblock %}

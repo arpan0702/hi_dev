@@ -1,0 +1,392 @@
+{% extends 'admin/layouts/main.html' %} {% block title %}List of Customers{%
+endblock %} {% block content %}
+
+<div class="row card">
+    <form method="post" class="form" id="form">
+        <!-- <h4 class="page-title marginlr paddinglr">{{cardholder_name}}</h4> -->
+        <input type="hidden" name="cardholder_name" value="{{cardholder_name}}" />
+        <input type="hidden" id="tab" name="tab" value="transactionlog" />
+        <input type="hidden" id="recent_date" name="recent_date" value="{{createdon}}" />
+        <input type="hidden" id="account_id" name="account_id" value="{{account_id}}" />
+
+        <input type="hidden" id="card_holder_seleced" name="card_holder_seleced" value="{{selected}}" />
+        <div class="pt-4 px-2">
+            <div class="form-group col-md-3 col-12 mx-auto">
+                <label class="centerclass marginlr" for="customer_names">Cardholder Name</label>
+                <select id="customer_names" name="customer_name" class="form-control">
+                    {%for customer_name in customer_names %} {% set account_id =
+                    account_ids[loop.index-1] %}
+                    <option value="{{account_id}}">{{customer_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 col-12 mx-auto">
+                <input type="button" value="Proceed" onclick="chooseCardholder()"
+                    class="btn btn-soft-primary btn-block" />
+            </div>
+        </div>
+
+        <div id="transactionlog" class="p-1 my-5 hide-div" style="display: none;">
+            <div class="pt-4 px-2">
+                <div class="col-lg-12">
+                    <div>
+                        <!-- <div class="card-header"> -->
+                        <h4 class="card-title">Create Transaction Log</h4>
+                        <hr class="divider-1" />
+                        <!-- </div> -->
+                        <!--end card-header-->
+
+                        <!-- alpine init -->
+                        <div class="p-4" x-data="initTxns()">
+                            <p class="text-muted small">
+                                All the dates before the most recent transaction are disabled.
+                            </p>
+                            <div id="row-container">
+
+                                <template x-for="(txn, index) in txns" :key="index">
+                                    <!-- row start -->
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-11">
+                                                <div class="row">
+                                                    <div class="col-1 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.mid.label"></label>
+                                                            <input :name="info.mid.name" class="form-control"
+                                                                x-model="txn.mid.value"
+                                                                :class="txn.mid.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.mid.id}-${index}`">
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.mid.error">
+                                                                <li class="parsley-required" x-text="txn.mid.error">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.mcc.label"></label>
+                                                            <select :name="info.mcc.name" id="mcc" class="form-control"
+                                                                x-model="txn.mcc.value"
+                                                                :class="txn.mcc.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.mcc.id}-${index}`">
+                                                                <option value="Any">Any</option>
+                                                                <option value="Medical">Medical</option>
+                                                                <option value="Fuel">Fuel</option>
+                                                                <option value="Travel">Travel</option>
+                                                                <option value="Hotel">Hotel</option>
+                                                                <option value="Food">Food</option>
+                                                                <option value="Retail">Retail</option>
+                                                                <option value="Cash">Cash</option>
+                                                            </select>
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.mcc.error">
+                                                                <li class="parsley-required" x-text="txn.mcc.error">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.date.label"></label>
+                                                            <input :name="info.date.name" class="form-control"
+                                                                type="date" x-model="txn.date.value"
+                                                                :class="txn.date.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.date.id}-${index}`">
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.date.error">
+                                                                <li class="parsley-required" x-text="txn.date.error">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.desc.label"></label>
+                                                            <input :name="info.desc.name" class="form-control"
+                                                                x-model="txn.desc.value"
+                                                                :class="txn.desc.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.desc.id}-${index}`">
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.desc.error">
+                                                                <li class="parsley-required" x-text="txn.desc.error">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-1 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.currency.label"></label>
+                                                            <select :name="info.currency.name" class="form-control"
+                                                                x-model="txn.currency.value"
+                                                                :class="txn.currency.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.currency.id}-${index}`">
+                                                                <option value="INR">INR</option>
+                                                                <option value="USD">USD</option>
+                                                                <option value="EUR">EUR</option>
+                                                            </select>
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.currency.error">
+                                                                <li class="parsley-required"
+                                                                    x-text="txn.currency.error"></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-1 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.amount.label"></label>
+                                                            <input :name="info.amount.name" class="form-control"
+                                                                x-model="txn.amount.value"
+                                                                :class="txn.amount.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.amount.id}-${index}`">
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.amount.error">
+                                                                <li class="parsley-required" x-text="txn.amount.error">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-1 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.txnrefid.label"></label>
+                                                            <input :name="info.txnrefid.name" class="form-control"
+                                                                oninput="checkIfAuth(this,`{{ json_customer_txns  }}`)"
+                                                                x-model="txn.txnrefid.value"
+                                                                :class="txn.txnrefid.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.txnrefid.id}-${index}`">
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.txnrefid.error">
+                                                                <li class="parsley-required"
+                                                                    x-text="txn.txnrefid.error"></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2 pr-3">
+                                                        <div class="form-group row">
+                                                            <label x-text="info.action.label"></label>
+                                                            <select :name="info.action.name" class="form-control"
+                                                                x-model="txn.action.value"
+                                                                :class="txn.action.error ? 'parsley-error' : ''"
+                                                                :data-ref="`${txn.action.id}-${index}`">
+                                                                <option value="AUTH">Auth</option>
+                                                                <option value="SETTLE_DEBIT">Settle Debit</option>
+                                                                <option value="REFUND">Refund</option>
+                                                                <option value="SETTLE_CREDIT">Settle Credit</option>
+                                                                <option value="SETTLE_DEBIT_CASH">Settle Debit Cash
+                                                                </option>
+                                                                <option value="SETTLE_CREDIT_CASH">Settle Credit Cash
+                                                                </option>
+                                                                <option value="REPAYMENT">Repayment</option>
+                                                                <option value="REPAYMENT_REVERSAL">Repayment Reversal
+                                                                </option>
+                                                            </select>
+                                                            <ul class="parsley-errors-list filled"
+                                                                x-show="txn.action.error">
+                                                                <li class="parsley-required" x-text="txn.action.error">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-1 pr-3">
+                                                <div class="form-group row p-2">
+                                                    <i x-show="index > 0"
+                                                        class="fas fa-minus text-info font-18 ml-4 mt-4"
+                                                        style="cursor: pointer;" @click="removeTxn(index)"></i>
+                                                </div>
+                                            </div>
+                                            <hr class="divider-2" style="
+                            width: 97%;
+                            margin: 15px 3% 25px 0px;
+                        " />
+                                        </div>
+                                    </div>
+                                    <!-- row end -->
+                                </template>
+
+                                <div class="col-12 mb-2 pl-3 ">
+                                    <i class="fas fa-plus text-info font-18" style="cursor: pointer;"
+                                        @click="addTxn()"></i>
+                                </div>
+
+                                <div class="col-md-3 col-12 mx-auto">
+                                    <button type="submit" class="btn btn-soft-primary btn-block" @click="handleSubmit">
+                                        Create Transaction Log
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end card-body-->
+
+                    </div>
+                    <!--end card-->
+                </div>
+                <!--end col-->
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            if (document.getElementById("card_holder_seleced").value == "True") {
+                var tab = document.getElementById("tab").value;
+                document.getElementById(tab).style.visibility = "visible";
+                document.getElementById(tab).style.display = "block";
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+
+                today = yyyy + '-' + mm + '-' + dd;
+                document.getElementsByName("date")[0].setAttribute("max", today);
+                recent_date = document.getElementById("recent_date").value
+                document.getElementsByName("date")[0].setAttribute("min", recent_date);
+                var customer_names = document.getElementById("customer_names");
+                var opts = customer_names.options;
+                var mobile = document.getElementById("account_id").value;
+                for (var opt, j = 0; (opt = opts[j]); j++) {
+                    if (opt.value == mobile) {
+                        customer_names.selectedIndex = j;
+                        break;
+                    }
+                }
+            }
+        },
+        false
+    );
+
+    function chooseCardholder() {
+        var dropdown = document.getElementById("customer_names");
+        var account_id = dropdown.value;
+        document.getElementById("card_holder_seleced").value = "True";
+        var tab = document.getElementById("tab").value;
+        location.replace(
+            (window.location.href =
+                "/transaction_log/create?account_id=" + account_id + "&selected=True")
+        );
+    }
+
+    function checkIfAuth(txnrefid, data) {
+        var txnrefid_value = txnrefid.value
+        var obj = JSON.parse(data)
+
+        var row = (txnrefid.parentNode.parentNode.parentNode.children);
+        console.log(row)
+
+        for (tuple in obj) {
+            if (obj[tuple].txnrefid == txnrefid_value) {
+                row[0].children[0].children[1].value = obj[tuple].mid;
+                row[1].children[0].children[1].value = obj[tuple].mcc;
+                row[3].children[0].children[1].value = obj[tuple].description;
+            }
+
+            console.log(obj[tuple]);
+        }
+    }
+
+    function initTxns() {
+
+        const getNewTxn = () => {
+            return {
+                mid: { id: 'mid', value: '', error: null },
+                mcc: { id: 'mcc', value: 'Any', error: null },
+                date: { id: 'date', value: '', error: null },
+                desc: { id: 'desc', value: '', error: null },
+                currency: { id: 'currency', value: 'INR', error: null },
+                amount: { id: 'amount', value: '', error: null },
+                txnrefid: { id: 'txnrefid', value: uuidv4(), error: null },
+                action: { id: 'action', value: 'Settle Debit', error: null },
+            };
+        };
+
+        return {
+            txns: [getNewTxn()],
+
+            info: {
+                mid: { name: 'mid', label: 'MID' },
+                mcc: { name: 'mcc', label: 'MCC' },
+                date: { name: 'date', label: 'Date' },
+                desc: { name: 'desc', label: 'Description' },
+                currency: { name: 'currency', label: 'Currency' },
+                amount: { name: 'amount', label: 'Amount' },
+                txnrefid: { name: 'txnrefid', label: 'Txn Id' },
+                action: { name: 'action', label: 'Action' },
+            },
+
+            addTxn: function () {
+                this.txns.push(getNewTxn());
+            },
+
+            removeTxn: function (index) {
+                if (index > -1) {
+                    this.txns.splice(index, 1);
+                }
+            },
+
+            // can be used for individual input validation on onChange or onBlur
+            getInputError: function (props, index, txns) {
+                // use index and txns to add validation based on other values
+
+                const { id, value, error } = props;
+                const { name, label } = this.info[id];
+
+                // required
+                const isFieldRequired = id === 'date' || id === 'amount' || id === 'txnrefid';
+
+                if (isFieldRequired && isValueEmpty(value)) {
+                    return `${label} is required`;
+                }
+
+                return null;
+            },
+
+            handleSubmit: function (e) {
+                const txns = this.txns;
+                let firstError = null;
+
+                // loop txn array
+                for (let index = 0; index < txns.length; index++) {
+                    const inputs = txns[index];
+                    // loop inputs (properties of inputs object)
+                    for (let input of Object.entries(inputs)) {
+                        const [key, props] = input;
+
+                        const err = this.getInputError(props, index, txns);
+                        txns[index][key].error = err;
+
+                        if (!firstError && err) {
+                            firstError = { id: props.id, index };
+                        }
+                    }
+                }
+
+                if (firstError) {
+                    e.preventDefault();
+
+                    let el = document.querySelector(`[data-ref=${firstError.id}-${firstError.index}]`);
+                    focusElement(el);
+                } else {
+                    // submit
+                    // for ajax, create object with name:value pairs
+                }
+            },
+
+        };
+
+    }
+
+</script>
+
+{% endblock %}

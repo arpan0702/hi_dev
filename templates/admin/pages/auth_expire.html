@@ -1,0 +1,66 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Customers{% endblock %}
+{% block content %}
+
+
+<div class="pt-4 px-2">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Expire Transactions</h4>
+                <!-- <p class="text-muted mb-0">Here are examples of <code class="highlighter-rouge">.form-control</code> applied to each
+                    textual HTML5 <code class="highlighter-rouge">&lt;input&gt;</code> <code class="highlighter-rouge">type</code>.
+                </p> -->
+            </div>
+            <!--end card-header-->
+            <div class="card-body">
+                <form method="post" id="form">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">Start Date</label>
+                                <div class="col-sm-9">
+                                    <input name="start_date" id="start_date" class="form-control" type="date"
+                                        tabindex="1" max="{{today}}" oninput="end_date_min()">
+                                    <ul class="parsley-errors-list">
+                                        <li class="parsley-required"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">End Date</label>
+                                <div class="col-sm-9">
+                                    <input name="end_date" id="end_date" class="form-control" type="date" tabindex="2"
+                                        max="{{today}}">
+                                    <ul class="parsley-errors-list">
+                                        <li class="parsley-required"></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3 col-12 ml-auto">
+                            <button type="submit" class="btn btn-soft-primary btn-block">Apply</button>
+                        </div>
+                        <div class="col-md-3 col-12 mr-auto">
+                            <a href="/customers" class="btn btn-soft-danger btn-block">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--end card-body-->
+        </div>
+        <!--end card-->
+    </div>
+    <!--end col-->
+</div>
+<script>
+    function end_date_min(){
+        document.getElementById('end_date').min = document.getElementById('start_date').value
+    }
+</script>
+{% endblock %}

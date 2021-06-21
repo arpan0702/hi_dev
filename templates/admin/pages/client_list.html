@@ -1,0 +1,79 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Merchants List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header">
+          <h4 class="card-title">Registered Clients</h4>
+      </div><!--end card-header-->
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered mb-0 table-centered">
+                  <thead>
+                  <tr>
+                    <!--
+                        <th>Client ID</th>
+                    -->
+                    <th>Client Name</th>
+                    <th>Client Logo</th>
+                    <!--
+                        <th>Date Created</th>
+                        <th>Date Modified</th>
+                    -->
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   
+                    {%for client in clients %}
+                      <tr>
+                        <!--<td>{{ client.id }}</td>-->
+                        <td>{{ client.name }}</td>
+                        <td><img  src="data:image/jpg;base64,{{ client.client_logo }}" width="100px" height="100px"/></td>
+                        <!--
+                        <td>{{ client.date_created }}</td>
+                        <td>{{ client.date_updated }}</td>
+                        -->
+                        <td class="text-right">
+                          <form method="post" class="d-inline">
+                            <i class="las la-pen text-info font-18 edit-account" style="cursor: pointer;"></i>
+                            <input type="hidden" name="edit" value="{{client.id}}">
+                          </form>
+                          <form method="post" class="d-inline">
+                            <i class="las la-trash-alt text-danger font-18 delete-account" style="cursor: pointer;"></i>
+                            <input type="hidden" name="delete" value="{{client.id}}">
+                          </form>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table><!--end /table-->
+          </div><!--end /tableresponsive-->
+      </div><!--end card-body-->
+    </div><!--end card-->
+    <div class="col-md-3 col-12 mx-auto">
+      <a href="/clients/create">
+        <button class="btn btn-soft-primary btn-block">Register New Client</button>
+      </a>
+    </div>
+  </div> <!-- end col -->
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.delete-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+  $(document).ready(function(){
+    $('.edit-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+</script>
+
+{% endblock %}

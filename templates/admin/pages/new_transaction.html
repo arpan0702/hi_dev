@@ -1,0 +1,226 @@
+{% extends 'admin/layouts/main.html' %}
+
+{% block content %}
+
+<div class="row card">
+
+  <form method="post" class="form">
+
+    <!-- <h4 class="page-title marginlr paddinglr">{{cardholder_name}}</h4> -->
+    <input type="hidden" name="cardholder_name" value={{cardholder_name}}>
+    <input type="hidden" id="tab" name="tab" value="transactionnew">
+    <input type="hidden" id="recent_date" name="recent_date" value={{createdon}}>
+    <input type="hidden" id="account_id" name="account_id" value="{{account_id}}" />
+    <input type="hidden" id="card_holder_seleced" name="card_holder_seleced" value={{selected}}>
+    <div class="pt-4 px-2">
+
+      <div class="form-group col-md-3 col-12 mx-auto">
+        <label class=" centerclass marginlr" for="customer_names">Cardholder Name</label>
+        <select id="customer_names" name="customer_name" class="form-control ">
+          {%for customer_name in customer_names %}
+          {% set account_id = account_ids[loop.index-1] %}
+          <option value="{{account_id}}">{{customer_name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3 col-12 mx-auto">
+        <input type="button" value="Proceed" onclick="chooseCardholder()" class="btn btn-soft-primary btn-block" />
+      </div>
+
+    </div>
+
+
+    <!-- <ul class="nav nav-tabs">
+        <li class="active"><a onclick="updatehiddenfunc(this)" name="transactionlog" data-toggle="tab"
+            href="#transactionlog">
+            <h4 class="page-title">Create Transaction Log</h4>
+          </a></li>
+        <li><a onclick="updatehiddenfunc(this)" name="transactionnew" data-toggle="tab" href="#transactionnew">
+            <h4 class="page-title">New Transaction</h4>
+          </a></li>
+        <li><a onclick="updatehiddenfunc(this)" name="cardcontrols" data-toggle="tab" href="#cardcontrols">
+            <h4 class="page-title">Card Controls</h4>
+          </a></li>
+      </ul> -->
+
+    <div id="transactionnew" class="" style="display: none;">
+      <div class="pt-4 px-2">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Create New Transaction</h4>
+            <!-- <p class="text-muted mb-0">Here are examples of <code class="highlighter-rouge">.form-control</code> applied to each
+                      textual HTML5 <code class="highlighter-rouge">&lt;input&gt;</code> <code class="highlighter-rouge">type</code>.
+                  </p> -->
+          </div>
+          <!--end card-header-->
+
+          <!--end card-header-->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+
+                <div class="form-group row">
+                  <label for="mid" class="col-sm-3 col-form-label text-right">MID</label>
+                  <div class="col-sm-9">
+                    <input autofocus="" class="form-control" id="mid" name="mid"
+                      tabindex="1" type="text" value="">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="mode" class="col-sm-3 col-form-label text-right">Channel</label>
+                  <div class="col-sm-9">
+                    <select autofocus="" class="form-control" id="mode" name="mode" tabindex="3">
+                      <option value="Contactless">Contactless</option>
+                      <option value="POS/ Magnetic Strip">POS/ Magnetic Strip</option>
+                      <option value="Online">Online</option>
+                      <option value="ATM">ATM</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="currency" class="col-sm-3 col-form-label text-right">Currency</label>
+                  <div class="col-sm-9">
+                    <select autofocus="" class="form-control" id="currency" name="currency" tabindex="5">
+                      <option value="INR">INR</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="action" class="col-sm-3 col-form-label text-right">Action</label>
+                  <div class="col-sm-9">
+                    <select autofocus="" class="form-control" id="action" name="action"
+                      tabindex="7">
+                      <option value="AUTH">Auth</option>
+                      <option value="SETTLE_DEBIT">Settle Debit</option>
+                      <option value="REFUND">Refund</option>
+                      <option value="SETTLE_CREDIT">Settle Credit</option>
+                      <option value="SETTLE_DEBIT_CASH">Settle Debit Cash</option>
+                      <option value="SETTLE_CREDIT_CASH">Settle Credit Cash</option>                          
+                      <option value="REPAYMENT">Repayment</option>
+                      <option value="REPAYMENT_REVERSAL">Repayment Reversal</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-lg-6">
+
+                <div class="form-group row">
+                  <label for="mcc" class="col-sm-3 col-form-label text-right">MCC</label>
+                  <div class="col-sm-9">
+                    <select autofocus="" class="form-control" id="mcc" name="mcc"
+                      tabindex="2">
+                      <option value="Any">Any</option>
+                      <option value="Medical">Medical</option>
+                      <option value="Fuel">Fuel</option>
+                      <option value="Travel">Travel</option>
+                      <option value="Hotel">Hotel</option>
+                      <option value="Food">Food</option>
+                      <option value="Retail">Retail</option>
+                      <option value="Cash">Cash</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="description" class="col-sm-3 col-form-label text-right">Description</label>
+                  <div class="col-sm-9">
+                    <input autofocus="" class="form-control" id="description"
+                      name="description" tabindex="4" type="text" value="">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="amount" class="col-sm-3 col-form-label text-right">Amount</label>
+                  <div class="col-sm-9">
+                    <input autofocus="" class="form-control" id="amount" name="amount"
+                      oninput="input(this)" step="0.01" tabindex="6" type="number" value="">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="txnrefid" class="col-sm-3 col-form-label text-right">Txn Id</label>
+                  <div class="col-sm-9">
+                    <input autofocus="" class="form-control" id="txnrefid" name="txnrefid"
+                      oninput="checkIfAuth(this, `{{json_customer_txns}}`   )" tabindex="7" type="text" value="">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-md-3 col-12 mx-auto">
+              <input type="submit" value="Create Transaction" class="btn btn-soft-primary btn-block">
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </form>
+</div>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.getElementById("card_holder_seleced").value == "True") {
+      var tab = document.getElementById('tab').value;
+      document.getElementById(tab).style.visibility = "visible";
+      document.getElementById(tab).style.display = "block";
+      var customer_names = document.getElementById("customer_names");
+      var opts = customer_names.options;
+      var mobile = document.getElementById("account_id").value;
+      for (var opt, j = 0; (opt = opts[j]); j++) {
+        if (opt.value == mobile) {
+          customer_names.selectedIndex = j;
+          break;
+        }
+      }
+      document.getElementById("txnrefid").value = uuidv4();
+    }
+  }, false);
+
+  function chooseCardholder() {
+    var dropdown = document.getElementById("customer_names");
+    var account_id = dropdown.value;
+    console.log(account_id)
+    document.getElementById("card_holder_seleced").value = "True";
+    var tab = document.getElementById("tab").value;
+    location.replace(window.location.href = '/transactions/create?account_id=' + account_id + '&tab=' + tab + '&selected=True');
+
+  }
+  function checkIfAuth(txnrefid_newtransaction, data) {
+    var txnrefid_newtransaction = txnrefid_newtransaction.value
+    console.log(data)
+    var obj = JSON.parse(data)
+
+
+    
+    for (tuple in obj) {
+      if (obj[tuple].txnrefid == txnrefid_newtransaction) {
+        document.getElementById("mcc").value = obj[tuple].mcc;
+        document.getElementById("mid").value = obj[tuple].mid;
+        document.getElementById("description").value = obj[tuple].description;
+      }
+    }
+  }
+
+  $(document).ready(function() {
+    allowOnlyAmount($('[name=amount]'));
+  });
+
+</script>
+
+{% endblock %}

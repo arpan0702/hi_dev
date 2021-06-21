@@ -1,0 +1,77 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Classifiers List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header">
+          <h4 class="card-title">Transaction Classifiers</h4>
+          <!-- <p class="text-muted mb-0">Add <code>.table-bordered</code> for
+              borders on all sides of the table and cells.
+          </p> -->
+      </div><!--end card-header-->
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered mb-0 table-centered">
+                  <thead>
+                  <tr>
+                    <th>Classifier ID</th>
+                    <th>Merchant ID</th>
+                    <th>Match Attribute</th>
+                    <th>Match Value</th>
+                    <th>Match Operation</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   
+                    {%for classifier in classifiers %}
+                      <tr>
+                        <td>{{ classifier.id }}</td>
+                        <td>{{ classifier.merchant_id }}</td>
+                        <td>{{ classifier.match_attr }}</td>
+                        <td>{{ classifier.match_value }}</td>
+                        <td>{{ classifier.match_operation }}</td>
+                        <td class="text-right">
+                          <form method="post" class="d-inline">
+                            <i class="las la-pen text-info font-18 edit-account" style="cursor: pointer;"></i>
+                            <input type="hidden" name="edit" value="{{classifier.id}}">
+                          </form>
+                          
+                          <form method="post" class="d-inline">
+                            <i class="las la-trash-alt text-danger font-18 delete-account" style="cursor: pointer;"></i>
+                            <input type="hidden" name="delete" value="{{classifier.id}}">
+                          </form>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table><!--end /table-->
+          </div><!--end /tableresponsive-->
+      </div><!--end card-body-->
+    </div><!--end card-->
+    <div class="col-md-3 col-12 mx-auto">
+      <a href="/classifiers/create">
+        <button class="btn btn-soft-primary btn-block">Create New Classifier</button>
+      </a>
+    </div>
+  </div> <!-- end col -->
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.delete-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+  $(document).ready(function(){
+    $('.edit-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+</script>
+
+{% endblock %}

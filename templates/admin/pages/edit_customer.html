@@ -1,0 +1,159 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Customers{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title">Edit Account</h4>
+              <!-- <p class="text-muted mb-0">Here are examples of <code class="highlighter-rouge">.form-control</code> applied to each
+                  textual HTML5 <code class="highlighter-rouge">&lt;input&gt;</code> <code class="highlighter-rouge">type</code>.
+              </p> -->
+          </div><!--end card-header-->
+          <div class="card-body">
+              <form method="post" id="form">
+                <div class="row">
+                  <div class="col-lg-6">
+                      <div class="form-group row">
+                          <label class="col-sm-3 col-form-label text-right">Cardholder Name</label>
+                          <div class="col-sm-9">
+                              <input name="name" id="name" class="form-control" value="{{data.name}}" disabled>
+                              <ul class="parsley-errors-list">
+                                <li class="parsley-required"></li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-right">Mobile Number</label>
+                        <div class="col-sm-9">
+                            <input name="mobile" id="mobile" class="form-control" value="{{data.mobile}}" tabindex="2">
+                            <ul class="parsley-errors-list">
+                              <li class="parsley-required"></li>
+                            </ul>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-right">Client</label>
+                        <div class="col-sm-9">
+                            <input name="brand_partner" id="brand_partner" class="form-control" value="{{data.brand_partner}}" disabled>
+                            <ul class="parsley-errors-list">
+                              <li class="parsley-required"></li>
+                            </ul>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-right">Bill Cycle</label>
+                        <div class="col-sm-9">
+                            <input name="bill_cycle" id="bill_cycle" class="form-control" value="{{bill_cycle}}" disabled>
+                            <ul class="parsley-errors-list">
+                              <li class="parsley-required"></li>
+                            </ul>
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label text-right">Date of Birth</label>
+                      <div class="col-sm-9">
+                          <input name="dob" id="dob" class="form-control" type="date" value="{{data.dob}}" tabindex="1">
+                          <ul class="parsley-errors-list">
+                            <li class="parsley-required"></li>
+                          </ul>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label text-right">Password</label>
+                      <div class="col-sm-9">
+                          <input name="password" id="password" class="form-control" type="password" value="{{data.password}}" tabindex="3">
+                          <ul class="parsley-errors-list">
+                            <li class="parsley-required"></li>
+                          </ul>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label text-right">Credit Limit</label>
+                      <div class="col-sm-9">
+                          <input name="credit_limit" id="credit_limit" class="form-control" value="{{credit_limit}}" disabled>
+                          <ul class="parsley-errors-list">
+                            <li class="parsley-required"></li>
+                          </ul>
+                      </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                      <label class="col-sm-3 col-form-label text-right">Card Issue Date</label>
+                      <div class="col-sm-9">
+                          <input name="card_issue_date" id="card_issue_date" class="form-control" value="{{card_issue_date}}" disabled type="date">
+                          <ul class="parsley-errors-list">
+                            <li class="parsley-required"></li>
+                          </ul>
+                      </div>
+                    </div> -->
+                  </div>
+                 
+                  <div class="col-md-2 col-12 offset-md-4 mb-3 mb-md-0">
+                    <button type="submit" class="btn btn-soft-primary btn-block">Save Details</button>
+                  </div>
+                  <div class="col-md-2 col-12 ml-md-2 mb-3 mb-md-0">
+                    <button type="button" class="btn btn-soft-danger btn-block" onclick="window.location.href='/customers'">Cancel</button>
+                  </div>
+                </div>
+              </form>
+          </div><!--end card-body-->
+      </div><!--end card-->
+  </div><!--end col-->
+</div>
+
+<script>
+ function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function() {
+
+    $('#form').submit(function(e) {
+      e.preventDefault();
+      
+      const required = [ 'dob','mobile', 'password'];
+      
+      let error = false;
+
+      for (var i = 0; i < required.length; i++) {
+        var el = $(`#${required[i]}`);
+        console.log(el);
+        if (el.val().length === 0) {
+          var label = el.parent().parent().find('label').text();
+          setError(el, `${label} is required`);
+          error = true;
+        }
+        else {
+          removeError(el);
+        }
+       
+        if(i==1 && (el.val().length!=10)){
+          var label = el.parent().parent().find('label').text();
+          setError(el, `${label} should have 10 digits`);
+          error = true;
+        } 
+        else if(i==1 && (el.val().length==10)) {
+          removeError(el);
+        }
+      }
+
+      if (!error) {
+        this.submit();
+      }
+    });
+
+  });
+</script>
+
+{% endblock %}

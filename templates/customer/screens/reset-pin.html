@@ -1,0 +1,67 @@
+{% extends 'customer/layouts/main.html' %}
+{% block content %}
+
+<div id="appCapsule">
+
+    
+    <div  class="section mb-5 p-2">
+        <form method="POST">
+
+            <div class="section mt-2 text-center">
+       
+                <h3>Enter Date of Birth</h3>
+            </div>
+            <div class="form-group basic">
+                <!-- <input type="date" class="form-control verification-input" id="dob"  placeholder="••••••"
+                    maxlength="6"> -->
+                    <input type="date" required class="form-control"  maxlength="6" id="dob" name ="dob"  value="{{dob}}">
+            </div>
+
+            <div class="section mt-2 text-center">
+       
+                <h3>Set PIN</h3>
+            </div>
+            <div class="form-group basic">
+                <input type="password" class="form-control verification-input" id="pin" name ="pin" value="{{pin}}" placeholder="____"
+                    maxlength="4" required>
+            </div>
+
+
+            <div class="section mt-2 text-center">
+       
+                <h3>Confirm PIN</h3>
+            </div>
+
+            <div class="form-group basic">
+                <input type="password" class="form-control verification-input" id="confirmpin" placeholder="____"  name ="confirmpin" value="{{confirmpin}}"
+                    maxlength="4" required>
+            </div>
+
+            <div class="form-button-group transparent"  style="margin-top:10px;display: flex;position: relative;">
+                <button type="submit" style="margin-right: 10px;" class="btn btn-primary btn-block btn-lg" >Submit</button>
+                <button onclick="window.location.href='/customer/transactions/{{customer_id}}'" type="button" class="btn btn-primary btn-block btn-lg">Cancel</button>
+            </div>
+
+            {% if message != ""%}
+            <div id="toast-1" class="toast-box toast-top">
+                <div class="in">
+                    <div class="text">
+                        {{message}}
+                    </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-text-light close-button">OK</button>
+                
+            </div>    
+            {% endif %}
+        </form>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        allowOnlyNumeric($('[name=pin]'));
+        allowOnlyNumeric($('[name=confirmpin]'));
+    });
+</script>
+{% endblock %}

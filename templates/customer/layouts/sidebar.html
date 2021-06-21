@@ -1,0 +1,125 @@
+
+ <!-- <div id="loader">
+    <img src="static/customer/assets/img/logo-icon.png" alt="icon" class="loading-icon">
+</div> -->
+<div class="appHeader bg-primary text-light" style="background-color: #090a36 !important;">
+    <div class="left">
+        <a href="#" class="headerButton" data-bs-toggle="modal" data-bs-target="#sidebarPanel">
+            <ion-icon name="reorder-four-outline"></ion-icon>
+
+        </a>
+    </div>
+    <div class="pageTitle">
+        <!-- <img src="static/customer/assets/img/logo.png" alt="logo" class="logo"> -->
+        <h2 style="color: white;">Hyperface</h2>
+    </div>
+</div>
+<div style="height: 56px;"></div>
+
+<div class="modal fade panelbox panelbox-left" id="sidebarPanel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <!-- profile box -->
+                <div class="profileBox pt-2 pb-2">
+                    <!-- <div class="image-wrapper"> -->
+                        <!-- <ion-icon name="person-circle-outline" style="font-size: xx-large;"></ion-icon> -->
+
+                        <!-- <img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="imaged  w36"> -->
+                    <!-- </div> -->
+                    <div class="in">
+                        <strong>{{customer.name}}</strong>
+                        <!-- <div class="text-muted">4029209</div> -->
+                    </div>
+                    <a href="#" class="btn btn-link btn-icon sidebar-close" data-bs-dismiss="modal">
+                        <ion-icon name="close-outline"></ion-icon>
+                    </a>
+                </div>
+                <!-- * profile box -->
+                <!-- balance -->
+             
+                <!-- * action group -->
+
+                <!-- menu -->
+                <div class="listview-title mt-1">Menu</div>
+                <ul class="listview flush transparent no-line image-listview">
+                    <li>
+                        <a href="/customer/transactions/{{creditAccount.customer_id}}" class="item">
+                            <div class="icon-box bg-primary">
+                                <ion-icon name="pie-chart-outline"></ion-icon>
+                            </div>
+                            <div class="in">
+                                Transactions                              
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/customer/statement/{{creditAccount.customer_id}}/{{creditAccount.current_billing_cycle - 1}}" class="item">
+                            <div class="icon-box bg-primary">
+                                <ion-icon name="document-text-outline"></ion-icon>
+                            </div>
+                            <div class="in">
+                                Statement
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/card-controls?customer_id={{creditAccount.customer_id}}" class="item">
+                            <div class="icon-box bg-primary">
+                                <ion-icon name="apps-outline"></ion-icon>
+                            </div>
+                            <div class="in">
+                               Card Controls
+                            </div>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="/customer/card-details/{{creditAccount.customer_id}}" class="item">
+                            <div class="icon-box bg-primary">
+                                <ion-icon name="card-outline"></ion-icon>
+                            </div>
+                            <div class="in">
+                               Card Details
+                            </div>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="/customer/reset-pin/{{creditAccount.customer_id}}" class="item">
+                            <div class="icon-box bg-primary">
+                                <ion-icon name="cube-outline"></ion-icon>
+                            </div>
+                            <div class="in">
+                               Reset Pin
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- * menu -->
+
+                <!-- others -->
+                <div class="listview-title mt-1">Others</div>
+                <ul class="listview flush transparent no-line image-listview">
+                  
+                    <li>
+                        <a href="/customer/signout" class="item">
+                            <div class="icon-box bg-primary">
+                                <ion-icon name="log-out-outline"></ion-icon>
+                            </div>
+                            <div class="in">
+                                Log out
+                            </div>
+                        </a>
+                    </li>
+
+
+                </ul>
+                <!-- * others -->
+
+                <!-- send money -->
+                
+                <!-- * send money -->
+
+            </div>
+        </div>
+    </div>
+</div>

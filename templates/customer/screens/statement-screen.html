@@ -1,0 +1,181 @@
+{% extends 'customer/layouts/main.html' %}
+{% block content %}
+
+<!-- loader -->
+<div id="loader">
+    <img src="/static/customer/assets/img/logo-icon.png" alt="icon" class="loading-icon">
+</div>
+<!-- * loader -->
+
+<div id="appCapsule">
+
+    <div class="section mt-4">
+        <div class="section-heading">
+            <h2 style="font-size: 18px;">Monthly Statements</h2>
+        </div>
+        </a>
+
+    </div>
+
+</div>
+
+
+{% if statements|length ==0 %}
+<div class="transactions">
+    <!-- <a  class="item" > -->
+        <div class="detail" style="display: contents;">
+            <form style="margin-inline: auto; min-width: 240px;">
+                <div class="card-text" style="display: flex;">
+                <h3 style="text-align: center;margin: auto;">No Statement has been generated yet</h3>
+            </div>
+            </form>                      
+    </div>
+</div>    
+{% endif %}
+
+
+{% for statement in statements %}
+<div class="section inset mt-2 mb-2" style="margin-top: 8% !important;margin-bottom: 16px;">
+    <div class="accordion statement-accordion" id="accordionExample5">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#accordiond{{loop.index}}">
+                    <div style="margin:auto; width:auto">
+                        <div style="margin-left: 20px;">
+                            &nbsp;&nbsp;{{statement.generated_on.strftime('%b %Y')}}
+                        </div>
+                    </div>
+                </button>
+            </h2>
+
+            <div id="accordiond{{loop.index}}" class="accordion-collapse collapse {% if loop.index == 1 %}
+                show
+            {% else %}
+                
+            {% endif %} " data-bs-parent="#accordionExample5">
+
+
+                <div class="accordion-body">
+
+
+                    <div class="transactions">
+                        <a class="item statement-accordion-content">
+
+                            <div class="detail" style="display: contents;">
+
+                                <form style="margin-inline: auto; min-width: 240px;">
+                                    <div class="card-text" style="display: flex;">
+                                        <h2 class="mb-3" style="text-align: center;margin-left: 30%;">
+                                            Summary</h2>
+                                        <!-- <ion-icon name="download-outline"
+                                            style="margin-left: 0px;height:22px;width:42px;" onClick="location.href = '/monthly-statement/{{creditAccount.customer_id}}/{{statement.billing_cycle_number|int}}'"></ion-icon> -->
+
+                                            <i class="fas fa-file-download" style="font-size: 22px; margin-left: 20px;" onClick="location.href = '/monthly-statement/{{creditAccount.customer_id}}/{{statement.billing_cycle_number|int}}'"></i>
+
+                                    </div>
+                                    <div class="form-group basic">
+                                        <div class="input-wrapper">
+                                            <label class="label" for="account2d">
+                                                <span class="amount-label">
+                                                    Opening Balance
+                                                </span>
+                                                -
+                                                <span class="amount">
+                                                    ₹ {{statement.opening_balance * -1}}
+                                                </span>
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group basic">
+                                        <div class="input-wrapper">
+                                            <label class="label" for="text11d">
+                                                <span class="amount-label">
+                                                    Payment/Credits
+                                                </span>
+                                                -
+                                                <span class="amount">
+                                                    ₹ {{statement.total_credits}}
+                                                </span>
+                                            </label>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group basic">
+                                        <label class="label">
+                                            <span class="amount-label">Purchase/Debit</span>
+                                            +
+                                            <span class="amount">
+                                                ₹ {{statement.total_debits}}
+                                            </span>
+                                        </label>
+
+                                    </div>
+
+                                    <div class="form-group basic">
+                                        <label class="label">
+                                            <span class="amount-label">
+                                                Finance Charges
+                                            </span>
+                                            +
+                                            <span class="amount">
+                                                ₹ 0.00
+                                            </span>
+                                        </label>
+
+                                    </div>
+                                    <div class="form-group basic">
+                                        <label class="label">
+                                            <span class="amount-label">
+                                                Total Amount Due
+                                            </span>
+                                            =
+                                            <span class="amount">
+                                            ₹ {{statement.total_due_amount}}
+                                            </span>
+                                        </label>
+
+                                    </div>
+                                    <div class="form-group basic">
+                                        <label class="label">
+                                            <span class="amount-label">
+                                                Min. Amount Due
+                                            </span>
+                                            =
+                                            <span class="amount">
+                                                ₹ {{statement.minimum_due_amount}}
+                                            </span>
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endfor %}
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<script>
+
+</script>
+{% endblock %}

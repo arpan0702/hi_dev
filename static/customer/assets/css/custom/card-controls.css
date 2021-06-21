@@ -1,0 +1,24 @@
+.limit-label {
+  font-size: 15px !important;
+}
+
+.control-list li {
+  padding: 16px;
+}
+
+.card-controls-edit-toggle {
+  float: right;
+  margin-top: -15px;
+  margin-right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #090a36;
+}
+
+.card-controls-input-disabled {
+  background: #e9ecef !important;
+  padding: 15px !important;
+  margin-left: -5px !important;
+  margin-top: 8px !important;
+  border-radius: 5px !important;
+}

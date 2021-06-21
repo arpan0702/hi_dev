@@ -1,0 +1,98 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Companies List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header">
+          <h4 class="card-title">Companies</h4>
+      </div><!--end card-header-->
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered mb-0 table-centered" id="datatable">
+                  <thead>
+                  <tr class="table-primary">
+                    <th>#</th>
+                    <th>Logo</th>
+                    <th>Company</th>
+                    <th>Pay (Lakhs Per Annum)</th>
+                    <th>Date Updated</th>
+                    <th>Last Applied</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {%for company in companies %}
+                      {% if loop.index % 2 ==0 %}
+                        {% if loop.index%8 == 0 %}
+                        <tr class="table-info">
+                        {% elif loop.index%8 == 2 %}
+                        <tr class="table-secondary">
+                        {% elif loop.index%8 == 4 %}
+                        <tr class="table-success">
+                        {% else %}
+                        <tr class="table-warning">
+                        {% endif %}
+                      {% else %}
+                      <tr class="">
+                      {% endif %}
+                        <td>{{loop.index}}</td>
+                        <td><img  src="data:image/jpg;base64,{{ company.company_logo }}" width="50px" height="50px"/></td>
+                        <td>{{ company.company_name }}</td>
+                        <td>{{ company.compensation }} - {{company.compensation+10}}</td>
+                        <td>{{ company.date_updated }}</td>
+                        <td>{{ company.last_applied }}</td>
+                        <td class="text-center">
+                          <a href="{{company.careers_page}}" target="_blank">
+                            <form method="post" class="d-inline" style="padding:5%;">
+                              <i class="fas fa-glasses text-info font-18 apply-account" style="cursor: pointer;"></i>
+                              <input type="hidden" name="apply" value="{{company.company_id}}">
+                            </form>
+                          </a>
+                          <form method="post" class="d-inline">
+                            <i class="las la-pen text-info font-18 edit-account" style="cursor: pointer;"></i>
+                            <input type="hidden" name="edit" value="{{company.company_id}}">
+                          </form>
+                          <form method="post" class="d-inline">
+                            <i class="las la-trash-alt text-danger font-18 delete-account" style="cursor: pointer;"></i>
+                            <input type="hidden" name="delete" value="{{company.company_id}}">
+                          </form>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table><!--end /table-->
+          </div><!--end /tableresponsive-->
+      </div><!--end card-body-->
+    </div><!--end card-->
+    <div class="col-md-3 col-12 mx-auto">
+      <a href="/companies/create">
+        <button class="btn btn-soft-primary btn-block">Register New company</button>
+      </a>
+    </div>
+  </div> <!-- end col -->
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.delete-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+  $(document).ready(function(){
+    $('.edit-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+  $(document).ready(function(){
+    $('.apply-account').click(function() {
+      var $form = $(this).closest('form');
+      $form.submit();
+    });
+  });
+</script>
+
+{% endblock %}

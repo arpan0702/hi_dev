@@ -1,0 +1,188 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Customers{% endblock %}
+{% block content %}
+
+<div class="row card">
+
+    <form method="post" class="form">
+
+
+        <!-- <h4 class="page-title marginlr paddinglr">{{cardholder_name}}</h4> -->
+        <input type="hidden" name="cardholder_name" value={{cardholder_name}}>
+        <input type="hidden" id="tab" name="tab" value="cardcontrols">
+        <input type="hidden" id="recent_date" name="recent_date" value={{createdon}}>
+        <input type="hidden" id="account_id" name="account_id" value="{{account_id}}" />
+        <input type="hidden" id="card_holder_seleced" name="card_holder_seleced" value={{selected}}>
+        <div class="pt-4 px-2">
+
+
+
+            <div class="form-group col-md-3 col-12 mx-auto">
+                <label class=" centerclass marginlr" for="customer_names">Cardholder Name</label>
+                <select id="customer_names" name="customer_name" class="form-control ">
+                    {%for customer_name in customer_names %}
+                    {% set account_id = account_ids[loop.index-1] %}
+                    <option value="{{account_id}}">{{customer_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 col-12 mx-auto">
+                <input type="button" value="Proceed" onclick="chooseCardholder()"
+                    class="btn btn-soft-primary btn-block" />
+            </div>
+
+        </div>
+
+        <div id="cardcontrols" class="hide-div paddingud" style="display: none;">
+            <div class="pt-4 px-2">
+                <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Change card controls</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row ">
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="cardsuspendedbycustomer" type="checkbox" class="custom-control-input" id="cardsuspendedbycustomer" {{card.cardsuspendedbycustomer}}>
+                        <label class="custom-control-label" for="cardsuspendedbycustomer">Card Status</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="enablenfc" type="checkbox" class="custom-control-input" id="enablenfc" {{card.enablenfc}}>
+                        <label class="custom-control-label" for="enablenfc">Offline Contactless</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="enablemagstripe" type="checkbox" class="custom-control-input" id="enablemagstripe" {{card.enablemagstripe}}>
+                        <label class="custom-control-label" for="enablemagstripe">Offline Magnetic Strip</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="enableonlinetransactions" type="checkbox" class="custom-control-input" id="enableonlinetransactions" {{card.enableonlinetransactions}}>
+                        <label class="custom-control-label" for="enableonlinetransactions">Online</label>
+                        </div>
+                    </div>
+
+                    </div>
+
+
+                    <div class="row mt-3">
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="enableoverseastransactions" type="checkbox" class="custom-control-input" id="enableoverseastransactions" {{card.enableoverseastransactions}}>
+                        <label class="custom-control-label" for="enableoverseastransactions">International Usage</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="enableofflinetransactions" type="checkbox" class="custom-control-input" id="enableofflinetransactions" {{card.enableofflinetransactions}}>
+                        <label class="custom-control-label" for="enableofflinetransactions">Offline POS</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="custom-control custom-switch switch-primary">
+                        <input name="enablecashwithdrawl" type="checkbox" class="custom-control-input" id="enablecashwithdrawl" {{card.enablecashwithdrawl}}>
+                        <label class="custom-control-label" for="enablecashwithdrawl">ATM Withdrawal</label>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+
+                <div class="row justify-content-center paddingud mt-4">
+                    <h4 class="card-title">Per Transaction Limits</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row limit-row">
+                    <div class="col-3 form-group">
+
+                        <input class="form-control" id="" name="perTransactionOnlineLimit"
+                        placeholder={{perTransactionOnlineLimit}} type="number" value={{perTransactionOnlineLimit}}
+                        oninput="input(this)" step="0.01">
+                    </div>
+                    <div class="col-3 form-group">
+                        <label>Online(Max ₹{{approvedCreditLimit}}) </label>
+                    </div>
+
+                    <div class="col-3 form-group">
+                        <input class="form-control" id="" name="perTransactionATMWithdrawalLimit"
+                        placeholder={{perTransactionATMWithdrawalLimit}} type="number"
+                        value={{perTransactionATMWithdrawalLimit}} oninput="input(this)" step="0.01">
+                    </div>
+                    <div class="col-3 form-group">
+                        <label>ATM Withdrawal(Max ₹{{ATMWithdrawalLimit}}) </label>
+
+                    </div>
+                    </div>
+                    <div class="row limit-row">
+                    <div class="col-3 form-group">
+
+                        <input class="form-control" id="" name="perTransactionOfflineLimit"
+                        placeholder={{perTransactionOfflineLimit}} type="number" value={{perTransactionOfflineLimit}}
+                        oninput="input(this)" step="0.01">
+                    </div>
+                    <div class="col-3 form-group">
+                        <label>Offline(Max ₹{{approvedCreditLimit}}) </label>
+                        <!-- <a href="#" data-toggle="tooltip"
+                        title="Max. limit applies to International Contactless and all PIN-based transactions. Max. limit is ₹5000 for Domestic Contactless transactions.">
+                        i
+                        </a> -->
+                        <p class="text-muted small">
+                        Max. limit applies to International Contactless and all PIN-based transactions. Max. limit is ₹5000 for Domestic Contactless transactions.
+                        </p>
+                    </div>
+
+
+                    </div>
+                    <div class="col-md-3 col-12 mx-auto">
+                    <input type="submit" value="Submit" class="btn btn-soft-primary btn-block" />
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (document.getElementById("card_holder_seleced").value == "True") {
+            var tab = document.getElementById('tab').value;
+            document.getElementById(tab).style.visibility = "visible";
+            document.getElementById(tab).style.display = "block";
+            var customer_names = document.getElementById("customer_names");
+            var opts = customer_names.options;
+            var mobile = document.getElementById("account_id").value;
+            for (var opt, j = 0; (opt = opts[j]); j++) {
+                if (opt.value == mobile) {
+                    customer_names.selectedIndex = j;
+                    break;
+                }
+            }
+        }
+
+    }, false);
+
+    function chooseCardholder() {
+        var dropdown = document.getElementById("customer_names");
+        var account_id = dropdown.value;
+        console.log(account_id)
+        document.getElementById("card_holder_seleced").value = "True";
+        var tab = document.getElementById("tab").value;
+        location.replace(window.location.href = '/cardcontrols/create?account_id=' + account_id  + '&selected=True');
+
+    }
+
+</script>
+
+{% endblock %}

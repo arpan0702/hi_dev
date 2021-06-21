@@ -1,0 +1,358 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Customers{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+    <div class="card card-dark" style="border: 2px solid #e3ebf6;">
+      <div class="card-header">
+        <h4 class="card-title" style="font-size: 17px;font-weight: 600;">Create New Program Offer</h4>
+      </div>
+      <div class="card-body">
+        <form method="post" id="form">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Card Program</label>
+                <div class="col-sm-6">
+                  <select name="card_program" id="card_program" class="form-control" tabindex="1">
+                    {%for card_program in card_programs %}
+
+                    <option value="{{card_program.id}}">{{card_program.name}}</option>
+
+                    {% endfor %}
+                  </select>
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Offer Name</label>
+                <div class="col-sm-6">
+                  <input name="offer_name" id="offer_name" class="form-control" tabindex="3">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">MID</label>
+                <div class="col-sm-6">
+                  <input name="mid" id="mid" class="form-control" tabindex="5">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Narration</label>
+                <div class="col-sm-6 mt-2">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="mid_transaction" name="transaction_label" class="custom-control-input"
+                      value="mid" checked>
+                    <label class="custom-control-label" for="mid_transaction">Cashback - MID transaction</label>
+                  </div>
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">MCC</label>
+                <div class="col-sm-6">
+                  <select name="mcc" id="mcc" class="form-control" tabindex="2">
+                    <option value="Any">Any</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Fuel">Fuel</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Food">Food</option>
+                    <option value="Food">Retail</option>
+                  </select>
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6 mt-2">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="mcc_transaction" name="transaction_label" class="custom-control-input"
+                      value="mcc">
+                    <label class="custom-control-label" for="mcc_transaction">Cashback - MCC transaction</label>
+                  </div>
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="dark-line">
+          <div class="row panel panel-default">
+
+            <div class="col-lg-6">
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Offer Start</label>
+                <div class="col-sm-6">
+                  <input oninput="DateValidation()" name="offer_start_date" id="offer_start_date" class="form-control"
+                    type="date" tabindex="7">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Offer End</label>
+                <div class="col-sm-6">
+                  <input name="offer_end_date" id="offer_end_date" class="form-control" type="date" tabindex="6">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <hr class="dark-line">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Minimum Spend</label>
+                <div class="col-sm-6">
+                  <input name="min_spend" id="min_spend" class="form-control" tabindex="4">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-lg-6">
+
+
+
+
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <div class="col-sm-4 mt-2">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="cashback_type_flat" name="cashback_type" class="custom-control-input"
+                      value="flat" checked>
+                    <label class="custom-control-label" for="cashback_type_flat">Per Txn Cashback (Flat)</label>
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <input name="per_Transaction_cashback_flat" id="per_Transaction_cashback_flat" class="form-control"
+                    tabindex="11">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-4 mt-2">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="cashback_type_percent" name="cashback_type" class="custom-control-input"
+                      value="percent">
+                    <label class="custom-control-label" for="cashback_type_percent">Per Txn Cashback (%)</label>
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <input name="per_Transaction_cashback_percent" id="per_Transaction_cashback_percent"
+                    class="form-control" tabindex="9">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-lg-6">
+              <div class="d-none d-lg-block" style="height: 59px;"></div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Per Txn Max Cashback</label>
+                <div class="col-sm-6">
+                  <input name="per_Transaction_max_cashback" id="per_Transaction_max_cashback" class="form-control"
+                    tabindex="8">
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="dark-line">
+          <div class="row">
+
+            <div class="col-lg-6">
+
+
+
+
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Frequency</label>
+                <div class="col-sm-6">
+                  <select name="frequency" id="frequency" class="form-control" tabindex="12">
+                    <option value="once">Once during offer</option>
+                    <option value="max_3_txn">Max 3 Transactions</option>
+                  </select>
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label text-right">Apply</label>
+                <div class="col-sm-6">
+                  <select name="apply" id="apply" class="form-control" tabindex="13">
+
+                    <option value="immediately">Immediately</option>
+
+                  </select>
+                  <ul class="parsley-errors-list">
+                    <li class="parsley-required"></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="row ">
+            <div class="col-md-3 col-12 ml-auto " style="margin-bottom: inherit;">
+              <button type="submit" class="btn btn-soft-primary btn-block">Create New Program Offer</button>
+            </div>
+            <div class="col-md-3 col-12 mr-auto">
+              <a class="btn btn-soft-danger btn-block" href="/offers/list">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--end card-body-->
+  </div>
+  <!--end card-->
+</div>
+
+<!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function () {
+
+    $('#form').submit(function (e) {
+      e.preventDefault();
+
+      const required = ['card_program', 'offer_name', 'mcc', 'mid', 'min_spend', 'offer_start_date', 'apply', 'frequency'];
+      let error = false;
+      for (var i = 0; i < required.length; i++) {
+        var el = $(`#${required[i]}`);
+        console.log(el);
+        if (el.val().length === 0) {
+          var label = el.parent().parent().find('label').text();
+          setError(el, `${label} is required`);
+          error = true;
+        }
+        else {
+          removeError(el);
+        }
+      }
+      if ($('#cashback_type_percent').is(':checked')) {
+        const required = ['per_Transaction_max_cashback', 'per_Transaction_cashback_percent'];
+        let error = false;
+        for (var i = 0; i < required.length; i++) {
+          var el = $(`#${required[i]}`);
+          console.log(el);
+          if (el.val().length === 0) {
+            var label = el.parent().parent().find('label').text();
+            setError(el, `${label} is required`);
+            error = true;
+          }
+          else {
+            removeError(el);
+          }
+        }
+        const required2 = ['per_Transaction_cashback_flat'];
+        for (var i = 0; i < required2.length; i++) {
+          var el = $(`#${required2[i]}`);
+          if (el.hasClass("parsley-error")) {
+            removeError(el);
+
+          }
+        }
+      }
+
+      else if ($('#cashback_type_flat').is(':checked')) {
+        const required = ['per_Transaction_cashback_flat'];
+        let error = false;
+        for (var i = 0; i < required.length; i++) {
+          var el = $(`#${required[i]}`);
+          console.log(el);
+          if (el.val().length === 0) {
+            var label = el.parent().parent().find('label').text();
+            setError(el, `${label} is required`);
+            error = true;
+          }
+          else {
+            removeError(el);
+          }
+        }
+        const required2 = ['per_Transaction_max_cashback', 'per_Transaction_cashback_percent'];
+        for (var i = 0; i < required2.length; i++) {
+          var el = $(`#${required2[i]}`);
+          if (el.hasClass("parsley-error")) {
+            removeError(el);
+          }
+
+        }
+      }
+
+      if (!error) {
+        this.submit();
+      }
+    });
+
+  });
+  $('#mid').on('input', function () {
+    $('#')
+  });
+  function DateValidation() {
+    var start = document.getElementById("offer_start_date");
+    var end = document.getElementById("offer_end_date");
+    end.min = start.value;
+  }
+</script>
+
+{% endblock %}

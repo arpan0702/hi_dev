@@ -1,0 +1,106 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Registered Companies{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title">Edit Company</h4>
+          </div><!--end card-header-->
+          <div class="card-body">
+            <form method="post" id="company_form" enctype="multipart/form-data">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-lg-3 align-items-center justify-content-center">
+                    <div class="form-group row">
+                      <label class="col-sm-6 col-form-label text-right">Company Name</label>
+                      <div class="col-sm-6">
+                        <input name="name" id="name" value="{{company.company_name}}" class="form-control">
+                          <ul class="parsley-errors-list">
+                            <li class="parsley-required"></li>
+                          </ul>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-6 col-form-label text-right">CTC (in Lakhs)</label>
+                    <!--<div class="col-sm-6">
+                      <input name="ctc" id="ctc" value="{{company.compensation}}" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>-->
+                    <select class="form-control col-sm-6" tabindex="3" name="ctc" value="">
+                      <option value="{{company.compensation}}" selected>{{company.compensation}}-{{company.compensation+10}}</option>
+                      <option value="0">< 10</option>
+                      <option value="10">10-20</option>
+                      <option value="20">20-30</option>
+                      <option value="30">30-40</option>
+                      <option value="40">40-50</option>
+                      <option value="50">> 50</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-right">Careers Page</label>
+                    <div class="col-sm-6 justify-content-center">
+                      <input name="careers_page" id="careers_page" value="{{company.careers_page}}" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              <div class="row align-items-center mx-auto">
+                  <div class="form-group row col-lg-6">
+                    <label class="col-form-label my-auto text-right">Original Company Logo</label>
+                    <div class="card-body"> 
+                        <img src="data:image/jpg;base64,{{ company.company_logo }}" width="200px" height="200px"/>   
+                    </div>
+                  </div>
+                  <div class="form-group row col-lg-6">
+                    <label class="col-form-label my-auto text-right">New Company Logo</label>
+                    <div class="card-body">
+                        <input type="file" id="input-file-now" name="logo" value="image" class="dropify"/>  
+                      <!-- <img  src="data:image/jpg;base64,{{ company.company_logo }}" width="50px" height="50px"/>   -->   
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 col-12 offset-md-4 mb-3 mb-md-0">
+                    <button type="submit" class="btn btn-soft-primary btn-block">Save Details</button>
+                </div>
+                <div class="col-md-2 col-12 ml-md-2 mb-3 mb-md-0">
+                    <button type="button" class="btn btn-soft-danger btn-block" onclick="window.location.href='/companies'">Cancel</button>
+                </div>
+               </div>
+            </form>
+          </div>
+      </div><!--end card-->
+  </div><!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function() {
+
+    
+
+  });
+</script>
+
+{% endblock %}

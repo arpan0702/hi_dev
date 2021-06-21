@@ -1,0 +1,109 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Clients List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title">Register New Client</h4>
+          </div><!--end card-header-->
+          <div class="card-body">
+            <form method="post" id="client_form" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-lg-9 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Client Name</label>
+                    <div class="col-sm-9">
+                      <input name="name" id="name" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Username</label>
+                    <div class="col-sm-9">
+                      <input name="username" id="username" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Password</label>
+                    <div class="col-sm-9">
+                      <input name="password" id="password" type="password" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col-lg-9 align-items-center my-auto">
+                  <div class="form-group row align-items-center">
+                    <label class="col-sm-3 col-form-label text-right">Client Logo</label>
+                    <div class="card-body">
+                      <input type="file" id="input-file-now" name="logo" class="dropify" required />        
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-12 ml-auto align-items-center my-auto">
+                  <button type="submit" class="btn btn-soft-primary btn-block">Register Client</button>
+                </div>
+                <div class="col-md-3 col-12 mr-auto align-items-center my-auto">
+                  <a href="/clients" class="btn btn-soft-danger btn-block">Cancel</a>
+                </div>
+              </div>
+            </form>
+          </div><!--end card-body-->
+      </div><!--end card-->
+  </div><!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function() {
+
+    $('#client_form').submit(function(e) {
+      e.preventDefault();
+      
+      const required = ['name'];
+      
+      let error = false;
+
+      for (var i = 0; i < required.length; i++) {
+        var el = $(`#${required[i]}`);
+
+        if (el.val().length === 0) {
+          var label = el.parent().parent().find('label').text();
+          setError(el, `${label} is required`);
+          error = true;
+        } else {
+          removeError(el);
+        }
+      }
+
+      if (!error) {
+        this.submit();
+      }
+    });
+
+  });
+</script>
+
+{% endblock %}

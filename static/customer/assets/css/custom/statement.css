@@ -1,0 +1,16 @@
+.transactions .statement-accordion-content {
+  background-color: #e4e4fa;
+}
+
+.statement-accordion-content .label {
+  font-size: 13px;
+}
+
+.amount-label {
+  min-width: 125px;
+  display: inline-block;
+}
+
+.amount {
+  float: right;
+}

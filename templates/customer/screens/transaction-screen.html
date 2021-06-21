@@ -1,0 +1,398 @@
+{% extends 'customer/layouts/main.html' %}
+{% block content %}
+<!-- loader -->
+<div id="loader">
+    <img src="/static/customer/assets/img/logo-icon.png" alt="icon" class="loading-icon">
+</div>
+<!-- * loader -->
+​
+<div id="appCapsule">
+
+   
+    <div class="section mt-2" style="margin-top: -10px !important;margin-bottom: -8px !important;">
+        <!-- <div class="card">
+        <div class="card-body">         -->
+            <!-- <img src="/static/customer/assets/img/card.png" alt="" class="img-fluid"> -->
+        <!-- </div>
+        </div> -->
+        <!-- <div class="col-6">
+            <img src="/Card_Final_1.png" class="img-rounded" alt="Cinque Terre">
+        </div> -->
+       
+ 
+      
+        <div class="card-block bg-dark mb-2" style="height: 230px;">
+            <div
+                class="card-main"
+                style="
+                    background-image: url('/static/customer/assets/img/card/card-bg.jpg');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
+                "
+            >
+                <!-- <div class="card-button dropdown" >
+                ​
+                    <button type="text" class="btn btn-link btn-icon">
+​
+                        <h2 class="title mt-2" style="color: white;font-family: sans-serif !important;">{{card_program.scheme_name}}</h2>
+                    </button>
+                </div> -->
+                <div class="balance"  >
+                  
+                    <h1
+                        class="title"
+                        style="
+                            font-weight: 400;
+                            font-size: 19px;
+                            text-transform: uppercase;
+                        "
+                    >
+                        {{customer.name}}
+                    </h1>
+                </div>
+                <div class="in">
+                    <div class="card-number" style="position: relative; min-width: 280px;">
+                     
+                        <span
+                            id="card-number"
+                            style="
+                                position: absolute;
+                                top: -40px;
+                            "
+                        >
+                            {{card.card_number|mask_card|card_format}}
+                        </span>
+                    </div>
+
+                    {# <div style="
+                        position: absolute;
+                        left: 80px;
+                        bottom: 95px;
+                    ">
+                        <img src="/static/customer/assets/img/card/contactless.png" style="width: 35px;"/>
+                    </div>
+                    <div style="
+                        position: absolute;
+                        left: 15px;
+                        bottom: 92px;
+                    ">
+                        <img src="/static/customer/assets/img/card/chip.png" style="width: 55px;"/>
+                    </div> #}
+​
+                    <div class="bottom">
+                        <div class="in">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="bottom">
+                                        <div
+                                            class="card-expiry"
+                                            style="
+                                                min-width: 60px;
+                                                margin-right: 10px;
+                                            "
+                                        >
+                                            <span class="card-label">Expiry</span>
+                                            <span id="expiry">XX / XX</span>
+                                        </div>
+                                        <div class="card-ccv">
+                                            <span class="card-label">CVV</span>
+                                            <span id="cvv">XXX</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <i
+                                        id="details-toggle"
+                                        class="las la-lock"
+                                        style="
+                                            position: absolute;
+                                            right: 35px;
+                                            bottom: 100px;
+                                            font-size: 26px;
+                                            cursor: pointer;
+                                            margin-right: 12px;
+                                            margin-top: -5px;
+                                        "
+                                    ></i>
+                                    <div style="
+                                        position: absolute;
+                                        right: 30px;
+                                        bottom: 25px;
+                                    ">
+                                        {% if card_program.scheme_name == 'Visa' %}
+                                            <img src="/static/customer/assets/img/card/visa.png" style="width: 70px;"/>
+                                        {% elif card_program.scheme_name == 'MasterCard' %}
+                                            <img src="/static/customer/assets/img/card/mastercard.png" style="width: 70px;"/>
+                                        {% elif card_program.scheme_name == 'RuPay' %}
+                                            <img src="/static/customer/assets/img/card/rupay.png" style="width: 70px;"/>
+                                        {% endif %}
+                                    </div>
+                                    <!-- <div class="bottom">
+                                        <div
+                                            style="
+                                                width: 220px;
+                                                font-weight: 500;
+                                                font-size: 22px;
+                                                text-align: right;
+                                                text-transform: uppercase;
+                                                font-style: italic;
+                                                margin-top: 20px;
+                                            "
+                                        >
+                                            {{card_program.scheme_name}}
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+​
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div style="text-align: right;">
+            <button
+                type="button"
+                class="btn btn-outline-primary"
+                id="details-toggle"
+                style="width: 150px; font-weight: 600; background: none;"
+            >
+                Show Details
+            </button>
+        </div> -->
+
+    </div>
+​
+    <!-- <div class="section wallet-card-section pt-1"> -->
+    <div class="wallet-card">
+​
+        <div class="balance" style="height: 60px;margin-bottom: -30px !important;" >
+            <div class="left">
+                <!-- <span class="title">Hello User,</span> -->
+                {% if statement != None and statement.total_due_amount != 0.00 %}
+                <h2 class="title" style="color: blue;font-family: sans-serif !important;" id="total_due_amount">₹ {{statement.total_due_amount}}</h2>
+                {% endif %}
+                <span class="title" style="font-family: sans-serif !important;font-weight: 600 !important;">{{transactionSummaryMessage}}</span>
+                <!-- <span class="title">April 10, 2021</span> -->
+​
+            </div>
+​
+        </div>
+​
+        <div class="row mt-2" style="margin-top: -30px;">
+            <div class="col-12">
+                <div class="stat-box" style="background-color: #090a36 !important;">
+                    <div class="title" style="color:white;font-family: sans-serif !important;font-size: 15px !important;">Available Credit</div>
+                    <div class="value text-success"><label id="availableCreditLimit"  style="font-family: sans-serif !important;">₹ {{creditAccount.availableCreditLimit}}</label></div>
+                </div>
+            </div>
+            <div class="col-12 mt-1">
+                <div class="stat-box" style="background-color: #090a36 !important;">
+                    <div class="title" style="color: white;font-family: sans-serif !important;font-size: 15px !important;">Available Cash</div>
+                    <div class="value text-success"><label id="availableCashLimit"  style="font-family: sans-serif !important;">₹ {{creditAccount.availableCashLimit}}</label></div>
+                </div>
+            </div>
+        </div>
+        
+   
+    </div>
+​
+    <!-- <div class="section mt-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="mt-1"></div>
+                <button type="button" class="btn btn-primary btn-block"
+                    onclick="location.href = '/customer/statement/{{creditAccount.customer_id}}'">View
+                    Statement</button>
+                <div class="mt-1"></div>
+                <button type="button" class="btn btn-primary btn-block">Payment Options</button>
+            </div>
+        </div>
+    </div> -->
+    <!-- * Stats -->
+​
+    <!-- Transactions -->
+    <div class="section mt-0">
+        <div class="section-heading" style="margin-bottom: 0px !important;">
+            <h2 class="title" style="font-family: sans-serif !important;">Recent Transactions</h2>
+​
+         
+            <ion-icon name="refresh-outline" onClick="window.location.reload();" style="color: black !important;width: 35px !important;height: 20px !important;"></ion-icon>
+            
+           
+​
+            </a>
+        </div>
+        <!-- <a href="app-transactions.html" class="link">View All</a> -->
+    </div>
+​
+<div class="transactions">
+    <!-- item -->
+    {%set k = { 'date': creditAccount.current_billing_end_date} %}
+    {% if combined_data|length == 0 %}
+    <h4 style="text-align: center;">No Transactions</h4>
+    {% endif %}
+    {%set j = {'index':0}%}
+
+    {% for key,txn in combined_data.items() %}
+    
+    {% if k.date.month > txn['createdon'].month %}
+     {% if k.update({ 'date': txn['createdon']}) %} {%endif%}
+        <h3 class="title" style="text-align: center;">{{k.date.strftime('%b %y')}}</h3>
+
+        {%endif %}
+        <ul class="listview image-listview media">       
+            <li>
+            
+                <a href="#" class="item" style="height: 80px !important;">
+                    <div class="imageWrapper">
+                        <img src="data:image/jpg;base64,{{ txn.logo  }}" alt="img" class="image-block imaged w48">
+                       
+                    </div>
+                    <div class="in">
+                        {% if j.update({ 'index': j.index+1}) %} {%endif%}
+                        <div style="font-weight: 600 !important;">
+                            {{txn.description}}
+                            <div class="text-muted" style="font-weight: 500 !important;">{{txn['createdon'].strftime('%d %b %Y')}}</div>
+                        </div>
+                       <span class="text-muted" 
+                             style="font-family: sans-serif !important;
+                              color: #DD1444 !important;font-weight: 600 !important;font-size: 14px !important;
+                             {% if txn['txntype'] == 'Credit' or 'Fees Reversal' in txn['txntype'] or  txn['txntype'] == 'Credit'  %}
+                                color: #19B832 !important;font-weight: 600 !important;font-size: 14px !important;
+                                {% endif %}"
+                            > ₹ {{txn.amount}}
+                            <p style="color: #005CEE !important;font-weight: 600 !important;font-size: 12px !important;font-family: sans-serif !important;">
+                               
+                            </p>
+                        
+                        
+                        </span>
+                          
+                       
+                    </div>
+                </a>
+              
+            </li>
+        </ul>
+        {% endfor %}
+
+
+        
+ 
+</div>
+</div>
+<!-- * Transactions -->
+​
+<!-- my cards -->
+​
+<!-- * my cards -->
+​
+<!-- Send Money -->
+​
+<!-- * Send Money -->
+​
+<!-- Monthly Bills -->
+​
+<!-- <div class="card"> -->
+<!-- <div class="card-body">
+    <div class="mt-1"></div>
+​
+    <button type="button" class="btn btn-primary btn-block"
+        onclick="location.href = '/customer/statement/{{creditAccount.customer_id}}/{{creditAccount.current_billing_cycle-1}}'">View
+        Past Statements</button>
+​
+    <div class="mt-1"></div>
+    <button type="button" class="btn btn-primary btn-block">Payment Options</button> -->
+<!-- </div> --> 
+<!-- </div> -->
+​
+​
+​
+​
+<!-- <button type="button" class="btn btn-primary btn-block"
+onclick="location.href = '/customer/statement/{{creditAccount.customer_id}}'">View
+Statement</button> -->
+<!-- * Monthly Bills -->
+​
+​
+<!-- Saving Goals -->
+​
+​
+<!-- * Saving Goals -->
+​
+​
+<!-- News -->
+​
+<!-- * News -->
+​
+​
+<!-- app footer -->
+​
+<!-- * app footer -->
+​
+</div>
+<!-- * App Capsule -->
+​
+​
+<!-- App Bottom Menu -->
+​
+<!-- * App Bottom Menu -->
+​
+​
+<script>
+    // var timer;
+    var detailsVisible = false;
+    function special_format(n){
+        var m = n.split(" ");
+        var s = m[1].split(".");
+        x = s[0]
+        var lastThree = x.substring(x.length-3);
+        var otherNumbers = x.substring(0,x.length-3);
+        if(otherNumbers != '')
+            lastThree = ',' + lastThree;
+        var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+        console.log(res)
+        return m[0]+res+"."+s[1];
+    }
+    $(document).ready(function () {
+        $('#details-toggle').click(function () {
+            if (detailsVisible) {
+                // $(this).html('Show Details');
+                $(this).removeClass('la-unlock');
+                $(this).addClass('la-lock');
+                $('#card-number').html('{{card.card_number|mask_card|card_format}}');
+                $('#expiry').html('XX / XX');
+                $('#cvv').html('XXX');
+            } else {
+                // clearTimeout(timer);
+                // timer = setTimeout(() => {
+                //     $('#details-toggle').click();
+                // }, 5000);
+
+                // $(this).html('Hide Details');
+                $(this).removeClass('la-lock');
+                $(this).addClass('la-unlock');
+                $('#card-number').html('{{card.card_number|card_format}}');
+                $('#expiry').html('07 / 23');
+                $('#cvv').html('524');
+            }
+            
+            detailsVisible = !detailsVisible;
+        });
+        var availableCreditLimit = document.getElementById("availableCreditLimit");
+        availableCreditLimit.textContent = special_format(availableCreditLimit.textContent);
+        var availableCashLimit = document.getElementById("availableCashLimit");
+        availableCashLimit.textContent = special_format(availableCashLimit.textContent);
+        
+        var ledgerEntry_amounts = document.getElementsByName("ledgerEntry_amount");
+        for(var i=0; i<ledgerEntry_amounts.length; i++){
+            ledgerEntry_amounts[i].textContent = special_format(ledgerEntry_amounts[i].textContent);
+        }
+        var total_due_amount = document.getElementById("total_due_amount");
+        total_due_amount.textContent = special_format(total_due_amount.textContent);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Classifiers List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Create New Transaction Classifier</h4>
+            </div><!--end card-header-->
+            <div class="card-body">
+                <form method="post" id="classifier_form" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">Match Attribute</label>
+                                <div class="col-sm-9">
+                                    <ul class="parsley-errors-list">
+                                        <li class="parsley-required"></li>
+                                    </ul>
+                                    <select name="attr" id="attr" class="form-control">
+                                        <option disabled selected value></option>
+                                        <option value="Description">Description</option>
+                                        <option value="MID">MID</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">Match Value</label>
+                                <div class="col-sm-9">
+                                    <input name="value" id="value" class="form-control">
+                                    <ul class="parsley-errors-list">
+                                        <li class="parsley-required"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">Match Operation</label>
+                                <div class="col-sm-9">
+                                    <ul class="parsley-errors-list">
+                                        <li class="parsley-required"></li>
+                                    </ul>
+                                    <select name="op" id="op" class="form-control">
+                                        <option disabled selected value></option>
+                                        <option value="Regex">Regex</option>
+                                        <option value="Eq">Eq</option>
+                                        <option value="Contains">Contains</option>
+                                        <option value="ContainsIgnoreCase">ContainsIgnoreCase</option>
+                                        <option value="List">List</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-right">Merchant</label>
+                                <div class="col-sm-9">
+                                    <input name="merchant_id" id="merchant_id" class="form-control" list="merchants">
+                                    <ul class="parsley-errors-list">
+                                        <li class="parsley-required"></li>
+                                    </ul>
+                                    <datalist id="merchants">
+                                        {% for row in data %}
+                                        <option value ="{{row.merchant_name}}" data-value="{{row.id}}">{{row.merchant_name}}</option>    
+                                        {% endfor %}
+                                    </datalist>
+                                    <input type="hidden" name="merchants_id" id="merchants_id">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-12 ml-auto">
+                            <button type="submit" class="btn btn-soft-primary btn-block">Create Classifier</button>
+                        </div>
+                        <div class="col-md-3 col-12 mr-auto">
+                            <a class="btn btn-soft-danger btn-block" href="/classifiers">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div><!--end card-body-->
+        </div><!--end card-->
+    </div><!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function() {
+       /* $("#merchant_id").on("input",function(e){
+            text=$("#merchant_id").val();
+            $.ajax({
+                method:"post",
+                url:"/classifiers/livesearch",
+                data:{text:text},
+                success:function(res){
+                    
+                }
+            })
+            */
+    $('#classifier_form').submit(function(e) {
+      e.preventDefault();
+      
+      const required = ['attr','value','op','merchant_id'];
+      
+      let error = false;
+
+      for (var i = 0; i < required.length; i++) {
+        var el = $(`#${required[i]}`);
+
+        if (el.val().length === 0) {
+          var label = el.parent().parent().find('label').text();
+          setError(el, `${label} is required`);
+          error = true;
+        } else {
+          removeError(el);
+        }
+      }
+
+      if (!error) {
+        this.submit();
+      }
+    });
+
+  });
+
+  document.querySelector('input[list]').addEventListener('input', function(e) {
+    var input = e.target,
+        list = input.getAttribute('list'),
+        options = document.querySelectorAll('#' + list + ' option'),
+        hiddenInput = document.getElementById('merchants_id'),
+        inputValue = input.value;
+
+    hiddenInput.value = inputValue;
+
+    for(var i = 0; i < options.length; i++) {
+        var option = options[i];
+
+        if(option.innerText === inputValue) {
+            hiddenInput.value = option.getAttribute('data-value');
+            break;
+        }
+    }
+});
+</script>
+
+{% endblock %}

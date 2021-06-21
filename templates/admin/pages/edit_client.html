@@ -1,0 +1,92 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}List of Registered Clients{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title">Edit Client</h4>
+          </div><!--end card-header-->
+          <div class="card-body">
+            <form method="post" id="client_form" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-lg-9 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Client Name</label>
+                    <div class="col-sm-9">
+                      <input name="name" id="name" value="{{client.name}}" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Username</label>
+                    <div class="col-sm-9">
+                      <input name="username" id="username" value="" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Password</label>
+                    <div class="col-sm-9">
+                      <input name="password" id="password" type="password" value="" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row align-items-center mx-auto">
+                  <div class="form-group row col-lg-6">
+                    <label class="col-form-label my-auto text-right">Previous Logo</label>
+                    <div class="card-body"> 
+                        <img src="data:image/jpg;base64,{{ client.client_logo }}" width="200px" height="200px"/>   
+                    </div>
+                  </div>
+                  <div class="form-group row col-lg-6">
+                    <label class="col-form-label my-auto text-right">New Logo</label>
+                    <div class="card-body">
+                        <input type="file" id="input-file-now" name="logo" value="image" class="dropify"/>   
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 col-12 offset-md-4 mb-3 mb-md-0">
+                    <button type="submit" class="btn btn-soft-primary btn-block">Save Details</button>
+                </div>
+                <div class="col-md-2 col-12 ml-md-2 mb-3 mb-md-0">
+                    <button type="button" class="btn btn-soft-danger btn-block" onclick="window.location.href='/clients'">Cancel</button>
+                </div>
+               </div>
+            </form>
+          </div>
+      </div><!--end card-->
+  </div><!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function() {
+
+    
+
+  });
+</script>
+
+{% endblock %}

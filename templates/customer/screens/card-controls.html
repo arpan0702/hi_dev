@@ -1,0 +1,219 @@
+{% extends 'customer/layouts/main.html' %}
+{% block content %}
+
+
+<div id="appCapsule" class="full-height">
+    <div class="section mt-2 mb-2">
+        <form method="POST" id="form">
+            <div class="card">
+                <input type="hidden" id="customer_id" name="customer_id" value="{{customer_id}}" />
+                <ul class="listview simple-listview transparent flush control-list">
+                    <li>
+                        <div>Card Status</div>
+                        <div class="form-check form-switch">
+                            <input name="cardsuspendedbycustomer" class="form-check-input" type="checkbox"
+                                id="SwitchCheckDefault1" {{card.cardsuspendedbycustomer}}>
+
+                            <label class="form-check-label" for="SwitchCheckDefault1"></label>
+                        </div>
+
+                    </li>
+
+                    <li>
+                        <div>Offline Contactless</div>&nbsp;&nbsp;
+                        <ion-icon name="information-circle-outline" data-bs-toggle="tooltip" data-bs-placement="top"
+                            style="margin-right: auto;height:20px;width:20px" title="No PIN required"></ion-icon>
+                        <div class="form-check form-switch">
+                            <input name="enablenfc" class="form-check-input" type="checkbox" id="SwitchCheckDefault2"
+                                {{card.enablenfc}} />
+                            <label class="form-check-label" for="SwitchCheckDefault2"></label>
+
+                        </div>
+                    </li>
+                    <li>
+                        <div>Offline Magnetic Strip</div>
+                        <div class="form-check form-switch">
+                            <input name="enablemagstripe" class="form-check-input" type="checkbox"
+                                id="SwitchCheckDefault3" {{card.enablemagstripe}}>
+                            <label class="form-check-label" for="SwitchCheckDefault3"></label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>Online</div>
+                        <div class="form-check form-switch">
+                            <input name="enableonlinetransactions" class="form-check-input" type="checkbox"
+                                id="SwitchCheckDefault4" {{card.enableonlinetransactions}}>
+                            <label class="form-check-label" for="SwitchCheckDefault4"></label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>International Usage</div>
+                        <div class="form-check form-switch">
+                            <input name="enableoverseastransactions" class="form-check-input" type="checkbox"
+                                id="SwitchCheckDefault5" {{card.enableoverseastransactions}}>
+                            <label class="form-check-label" for="SwitchCheckDefault5"></label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>Offline POS</div>
+                        <div class="form-check form-switch">
+                            <input name="enableofflinetransactions" class="form-check-input" type="checkbox"
+                                id="SwitchCheckDefault6" {{card.enableofflinetransactions}}>
+                            <label class="form-check-label" for="SwitchCheckDefault6"></label>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>ATM withdrawal</div>
+                        <div class="form-check form-switch">
+                            <input name="enablecashwithdrawl" class="form-check-input" type="checkbox"
+                                id="SwitchCheckDefault7" {{card.enablecashwithdrawl}}>
+                            <label class="form-check-label" for="SwitchCheckDefault7"></label>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+
+            <div class="_section mt-4">
+                <div class="section-title" style="margin-left: 5px;">Limits (Per Transaction)</div>
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- <div class="form-group basic">
+                        <div class="input-wrapper">
+                            <label class="label" for="userid3">User ID</label>
+                            <input type="number" class="form-control" id="userid3" placeholder="10000">
+                            <i class="clear-input">
+                                <ion-icon name="close-circle"></ion-icon>
+                            </i>
+                        </div>
+                        <div class="input-info">Max 1,00,000</div>
+                    </div> -->
+
+                        <div class="form-group basic">
+                            <div class="input-wrapper">
+                                <label class="label limit-label" for="amount3">Offline</label>
+                                <i class="las la-pen card-controls-edit-toggle"></i>
+                                <input
+                                    name="perTransactionOfflineLimit"
+                                    type="text"
+                                    class="form-control"
+                                    id="amount3"
+                                    placeholder={{perTransactionOfflineLimit}}
+                                    value={{perTransactionOfflineLimit}}
+                                >
+                                <!-- <i class="clear-input">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </i> -->
+                            </div>
+                            <div class="input-info" >
+                                <span style="vertical-align: top;">Max ₹{{approvedCreditLimit}}</span>
+                                <ion-icon name="information-circle-outline" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" style="height:15px;width:20px;color:black;margin-top: 4px;"
+                                    title="Max Limit applies to International Contactless and all PIN based transactions. Max Limit ₹ 5000 for Domestic Contactless transactions.">
+                                </ion-icon>
+                            </div>
+                        </div>
+
+                        <div class="form-group basic">
+                            <div class="input-wrapper">
+                                <label class="label limit-label" for="amount3">Online</label>
+                                <i class="las la-pen card-controls-edit-toggle"></i>
+                                <input name="perTransactionOnlineLimit" value={{perTransactionOnlineLimit}}
+                                    type="text" class="form-control" id="amount3"
+                                    placeholder={{perTransactionOnlineLimit}}>
+                                <!-- <i class="clear-input">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </i> -->
+                            </div>
+                            <div class="input-info">Max ₹{{approvedCreditLimit}}
+
+
+                            </div>
+                            <!-- <ion-icon name="information-circle-outline" data-bs-toggle="tooltip" data-bs-placement="top" title="Max Limit applies to International Contactless and all PIN based transactions. Max Limit ₹ 5000 for Domestic COntactless transactions." ></ion-icon> -->
+                        </div>
+
+                        <div class="form-group basic">
+                            <div class="input-wrapper">
+                                <label class="label limit-label" for="amount3">ATM Withdrawal</label>
+                                <i class="las la-pen card-controls-edit-toggle"></i>
+                                <input name="perTransactionATMWithdrawalLimit" type="text" class="form-control"
+                                    id="amount3" value="{{perTransactionATMWithdrawalLimit}}"
+                                    placeholder="{{perTransactionATMWithdrawalLimit}}">
+                                <!-- <i class="clear-input">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </i> -->
+                            </div>
+                            <div class="input-info"><label>Max ₹{{ATMWithdrawalLimit}}</label></div>
+                        </div>
+
+
+
+
+
+
+
+                        <div id="toast-2" class="toast-box toast-top">
+                            <div class="in">
+                                <div class="text">
+                                    Card Controls Updated
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-text-light close-button">OK</button>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="form-button-group transparent" style="margin-top:10px;display: flex;position: relative;">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg"
+                        style="margin-right: 10px;">Submit</button>
+                    <button onclick="window.location.href='/customer/transactions/{{customer_id}}'" type="button" class="btn btn-primary btn-block btn-lg">Cancel</button>
+                </div>
+            </div>
+
+
+        </form>
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.card-controls-edit-toggle').click(function() {
+            let input = $(this).next();
+            let state = input.prop('disabled');
+            input.prop('disabled', !state);
+
+            if (state) {
+                input.prop('disabled', false);
+                input.removeClass('card-controls-input-disabled');
+            } else {
+                input.prop('disabled', true);
+                input.addClass('card-controls-input-disabled');
+            }
+        });
+
+        $('.card-controls-edit-toggle').click();
+
+        $('#form').submit(function(e) {
+            $('.card-controls-edit-toggle').next().prop('disabled', false);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,86 @@
+<!doctype html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>Hyperface Customer-Portal</title>
+  <meta name="description" content="Hyperface cards-demo">
+  <meta name="keywords"
+      content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+  <link rel="icon" type="image/png" href="/static/customer/assets/img/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/customer/assets/img/icon/192x192.png">
+  <link rel="stylesheet" href="/static/customer/assets/css/style.css">
+
+  <!-- line awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css" integrity="sha512-vebUliqxrVkBy3gucMhClmyQP9On/HAWQdKDXRaAlb/FKuTbxkjPKUyqVOxAcGwFDka79eTF+YXwfke1h3/wfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- custom css -->
+  <link rel="stylesheet" href="/static/customer/assets/css/custom/custom.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- custom js -->
+  <script src="/static/customer/assets/js/custom.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body class ="page" onload="validDate()" >
+
+  {% include 'customer/layouts/sidebar.html' %}
+
+  <div class="page">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mt-2 mx-3 alert {{category}}" role="alert">
+            {{ message }}
+            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+            <!-- <button
+              type="button"
+              data-dismiss="alert"
+              style="
+                background-color: #6236FF;
+                color: #fff;
+                border-radius: 5px;
+                float: right;
+                margin-right: 2px;
+                margin-top: -2px;
+              "
+            >
+              X
+            </button> -->
+          </div>
+    
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+  
+  <script src="/static/js/script.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script src="/static/customer/assets/js/lib/bootstrap.bundle.min.js"></script>
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
+  <!-- Splide -->
+  <script src="/static/customer/assets/js/plugins/splide/splide.min.js"></script>
+  <!-- Base Js File -->
+  <script src="/static/customer/assets/js/base.js"></script>
+
+
+</body>
+
+</html>

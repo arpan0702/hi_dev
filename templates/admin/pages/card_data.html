@@ -1,0 +1,181 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Classifiers List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"> {{customer.name}}</h4>
+            </div>
+            <!--end card-header-->
+
+            <div class="card-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills nav-justified" role="tablist">
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link active" data-toggle="tab" href="#transactions" role="tab" aria-selected="true">
+                            Transactions
+                        </a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-toggle="tab" href="#ledger" role="tab"
+                            aria-selected="false">Ledger</a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-toggle="tab" href="#statement" role="tab"
+                            aria-selected="false">Statements</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane p-3 active" id="transactions" role="tabpanel">
+                        <p class="text-muted mb-0">
+
+                        <div class="card-body">
+                            <div class="table-rep-plugin">
+                                <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                    <table id="tech-companies-1" class="table table-striped mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th data-priority="1">Channel</th>
+                                                <th data-priority="1">Txn Reference</th>
+                                                <th data-priority="3">Customer Txn ID</th>
+                                                <th data-priority="1">Description</th>
+                                                <th data-priority="3">Amount</th>
+                                                <th data-priority="3">TID</th>
+                                                <th data-priority="6">MID</th>
+                                                <th data-priority="6">MCC</th>
+                                                <th data-priority="6">Txn Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {%for customer_txn in customer_txns %}
+                                            <tr>
+                                                <th>{{customer_txn.createdon}}</th>
+                                                <th>{{customer_txn.channel}}</th>
+                                                <th>{{customer_txn.txnrefid}}</th>
+                                                <th>{{customer_txn.id}}</th>
+                                                <th>{{customer_txn.description}}</th>
+                                                <th>{{customer_txn.amount}}</th>
+                                                <th>{{customer_txn.tid}}</th>
+                                                <th>{{customer_txn.mid}}</th>
+                                                <th>{{customer_txn.mcc}}</th>
+                                                <th>{{customer_txn.txntype.value}}</th>
+
+                                            </tr>
+                                            {% endfor %}
+                                           
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        </p>
+                    </div>
+                    <div class="tab-pane p-3" id="ledger" role="tabpanel">
+                        <p class="text-muted mb-0">
+
+                        <div class="card-body">
+                            <div class="table-rep-plugin">
+                                <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                    <table id="tech-companies-1" class="table table-striped mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th data-priority="1">Customer Txn ID</th>
+                                                <th data-priority="3">Opening Balance</th>
+                                                <th data-priority="1">Amount</th>
+                                                <th data-priority="3">Entry Type</th>
+                                                <th data-priority="3">Closing Balance</th>
+                                                <th data-priority="6">Description</th>
+                                                <th data-priority="6">Txn Type</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {%for ledger_entry in ledger_entries %}
+                                            <tr>
+                                                <th>{{ledger_entry.createdon}}</th>
+                                                <th>{{ledger_entry.customer_txn_id}}</th>
+                                                <th>{{ledger_entry.openingbalance}}</th>
+                                                <th>{{ledger_entry.amount}}</th>
+                                                <th>{{ledger_entry.ledger_entry_type}}</th>
+                                                <th>{{ledger_entry.closingbalance}}</th>
+                                                <th>{{ledger_entry.description}}</th>
+                                                <th>{{ledger_entry.txntype.value}}</th>
+                                              
+
+                                            </tr>
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        </p>
+                    </div>
+                    <div class="tab-pane p-3" id="statement" role="tabpanel">
+                        <p class="text-muted mb-0">
+                        <div class="card-body">
+                            <div class="table-rep-plugin">
+                                <div class="table-responsive mb-0" data-pattern="priority-columns">
+                                    <table id="tech-companies-1" class="table table-striped mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Bill Cycle</th>
+                                                <th data-priority="1">Statement Date</th>
+                                                <th data-priority="3">Due Date</th>
+                                                <th data-priority="1">TAD</th>
+                                                <th data-priority="3">MAD</th>
+                                                <th data-priority="3">Opening Balance</th>
+                                                <th data-priority="6">Total Credits</th>
+                                                <th data-priority="6">Total Debits</th>
+                                                <th data-priority="6">Closing Balance</th>
+                                                <th data-priority="7">Repayment Indicator P/C</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {%for statement in statements %}
+                                            <tr>
+                                                <th>{{statement.billing_cycle_number}}</th>
+                                                <th>{{statement.generated_on}}</th>
+                                                <th>{{statement.due_date}}</th>
+                                                <th>{{statement.total_due_amount}}</th>
+                                                <th>{{statement.minimum_due_amount}}</th>
+                                                <th>{{statement.opening_balance}}</th>
+                                                <th>{{statement.total_credits}}</th>
+                                                <th>{{statement.total_debits}}</th>
+                                                <th>{{statement.closing_balance}}</th>
+                                                <th>{{statement.previous_cycle_repayment_indicator.value[0]}} / {{statement.current_cycle_repayment_indicator.value[0]}}</th>
+
+                                            </tr>
+                                            {% endfor %}
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--end card-body-->
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

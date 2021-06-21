@@ -1,0 +1,123 @@
+<!doctype html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>Hyperface Customer-Portal</title>
+  <meta name="description" content="Finapp HTML Mobile Template">
+  <meta name="keywords"
+      content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+  <link rel="icon" type="image/png" href="/static/customer/assets/img/favicon.png" sizes="32x32">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/customer/assets/img/icon/192x192.png">
+  <link rel="stylesheet" href="/static/customer/assets/css/style.css">
+  
+
+</head>
+
+<body class ="page" onload="validDate()">
+
+    <div class="appHeader bg-primary text-light"> 
+        <div class="pageTitle">
+            <h2 style="color: white;">Hyperface</h2>
+        </div>
+    </div>
+    <div style="height: 56px;"></div>
+
+<div class="page" >
+
+  
+</div>
+
+  <div id="appCapsule">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="m-3 alert {{category}}" role="alert">
+            {{ message }}
+            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+            <!-- <button
+              type="button"
+              data-dismiss="alert"
+              style="
+                background-color: #6236FF;
+                color: #fff;
+                border-radius: 5px;
+                float: right;
+                margin-right: 2px;
+                margin-top: -2px;
+              "
+            >
+              X
+            </button> -->
+        </div>
+  
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+    <div class="section mt-2 text-center" >
+       
+        <h3 style="margin-top: 70px; ">LOGIN</h3>
+    </div>
+    <div class="section mb-5 p-2">
+
+        <form method="POST">
+            <div class="card">
+                <div class="card-body pb-1">
+                    <div class="form-group basic">
+                        <div class="input-wrapper">
+                            <label class="label" for="mobileNumber">Mobile Number</label>
+                            <input type="text" required class="form-control" id="mobileNumber" name ="mobileNumber" placeholder="Mobile Number" value="{{mobileNumber}}" onkeypress="return event.charCode === 0 || /\d/.test(String.fromCharCode(event.charCode));">
+                            <i class="clear-input">
+                                <ion-icon name="close-circle"></ion-icon>
+                            </i>
+                        </div>
+                    </div>
+
+                    <div class="form-group basic">
+                        <div class="input-wrapper">
+                            <label class="label" for="password1">Password</label>
+                           
+                            <input type="password" required class="form-control" id="password" name="password" placeholder="Password" >
+                            <i class="clear-input">
+                                <ion-icon name="close-circle"></ion-icon>
+                            </i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-button-group  transparent">
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Log in</button>
+            </div>
+            <small id="emailHelp" class="form-text text-muted "><span class="text-danger">{{errorMessage}}</span></small>
+        </form>
+    </div>
+
+</div>
+<script></script>
+  <script src="/static/js/script.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script src="/static/customer/assets/js/lib/bootstrap.bundle.min.js"></script>
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
+  <!-- Splide -->
+  <script src="/static/customer/assets/js/plugins/splide/splide.min.js"></script>
+  <!-- Base Js File -->
+  <script src="/static/customer/assets/js/base.js"></script>
+
+</body>
+
+</html>
+
+

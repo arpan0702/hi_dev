@@ -1,0 +1,125 @@
+{% extends 'admin/layouts/main.html' %}
+{% block title %}Companies List{% endblock %}
+{% block content %}
+
+<div class="pt-4 px-2">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <h4 class="card-title">Register New company</h4>
+              <!-- <p class="text-muted mb-0">Here are examples of <code class="highlighter-rouge">.form-control</code> applied to each
+                  textual HTML5 <code class="highlighter-rouge">&lt;input&gt;</code> <code class="highlighter-rouge">type</code>.
+              </p> -->
+          </div><!--end card-header-->
+          <div class="card-body">
+            <form method="post" id="company_form" enctype="multipart/form-data">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-lg-3 align-items-center justify-content-center">
+                    <div class="form-group row">
+                      <label class="col-sm-6 col-form-label text-right">Company Name</label>
+                      <div class="col-sm-6">
+                        <input name="name" id="name" class="form-control">
+                          <ul class="parsley-errors-list">
+                            <li class="parsley-required"></li>
+                          </ul>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-6 col-form-label text-right">CTC (in lakhs)</label>
+                    <!--<div class="col-sm-6">
+                      <input name="ctc" id="ctc" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>-->
+                    <select class="form-control col-sm-6" tabindex="3" name="ctc" value="">
+                      <option selected disabled hidden>Choose pay scale</option>
+                      <option value="0">< 10</option>
+                      <option value="10">10-20</option>
+                      <option value="20">20-30</option>
+                      <option value="30">30-40</option>
+                      <option value="40">40-50</option>
+                      <option value="50">> 50</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-right">Careers Page</label>
+                    <div class="col-sm-6 justify-content-center">
+                      <input name="careers_page" id="careers_page" class="form-control">
+                        <ul class="parsley-errors-list">
+                          <li class="parsley-required"></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              <div class="row">
+                <div class="col-lg-9 align-items-center justify-content-center">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-right">Logo</label>
+                      <div class="card-body">
+                        <input type="file" id="input-file-now" name="logo" class="dropify"/>        
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-12 ml-auto align-items-center my-auto">
+                  <button type="submit" class="btn btn-soft-primary btn-block">Register Company</button>
+                </div>
+                <div class="col-md-3 col-12 mr-auto align-items-center my-auto">
+                  <a href="/companies" class="btn btn-soft-danger btn-block">Cancel</a>
+                </div>
+              </div>
+            </form>
+          </div><!--end card-body-->
+      </div><!--end card-->
+  </div><!--end col-->
+</div>
+
+<script>
+  function setError(el, msg) {
+    el.addClass('parsley-error');
+    el.next().addClass('filled');
+    el.next().children(":first").html(msg);
+  }
+
+  function removeError(el) {
+    el.removeClass('parsley-error');
+    el.next().removeClass('filled');
+  }
+
+  $(document).ready(function() {
+
+    $('#company_form').submit(function(e) {
+      e.preventDefault();
+      
+      const required = ['name'];
+      
+      let error = false;
+
+      for (var i = 0; i < required.length; i++) {
+        var el = $(`#${required[i]}`);
+
+        if (el.val().length === 0) {
+          var label = el.parent().parent().find('label').text();
+          setError(el, `${label} is required`);
+          error = true;
+        } else {
+          removeError(el);
+        }
+      }
+
+      if (!error) {
+        this.submit();
+      }
+    });
+
+  });
+</script>
+
+{% endblock %}
